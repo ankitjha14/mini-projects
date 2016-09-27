@@ -48,6 +48,10 @@ def weather(flag=0):
 		r.raise_for_status()
 		try:
 			data=r.json()
+			if int(data['cod'])==404:
+				print("No result found.|..")
+				weather(1)
+				exit()
 			city=data['name']+", "+data['sys']['country']
 
 			todayDate=getLocalDateFromUnix(int(data['dt']))
@@ -69,12 +73,16 @@ def weather(flag=0):
 			print("Sunset= %s"%(sunset))
 			
 			print("\nYour IP is= %s"%(ip))
-			print("Want to get weather of some other location? Y/N or y/n ")
-			ch=input()
-			if ch=="Y" or ch=="y":
-				weather(1)
-			else:
-				exit()
+			while(1):
+				print("Want to get weather of some other location? Y/N or y/n ")
+				ch=input()
+				if ch=="Y" or ch=="y":
+					weather(1)
+					break
+				elif ch=="N" or ch=="n":
+					break
+				else:
+					print("Invalid Try...")
 
 		except:
 			pass
